@@ -10,18 +10,25 @@ export default function Layout() {
 
   const navigate = useNavigate();
 
-  const [theme, setTheme] = useState("dark");
+  // Initialize state from localStorage or default to "dark"
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme ? savedTheme : "dark";
+  });
 
   useEffect(() => {
+    // Apply theme class to the document
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
+    // Save theme to localStorage
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
   const location = useLocation();
