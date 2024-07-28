@@ -1,12 +1,29 @@
-import './index.css'
+import "./index.css";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Layout from "./Pages/Layout";
+import Home from "./Pages/Home";
+import Login from "./Pages/Authentication/Login";
+import Register from "./Pages/Authentication/Register";
+import { useContext } from "react";
+import { AppContext } from "./Context/AppContext";
 
-function App() {
-
+export default function App() {
+  const { user } = useContext(AppContext);
   return (
-    <>
-      <h1 className='text-3xl font-bold text-red-500'>Hello</h1>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route
+            path="/login"
+            element={user ? <Navigate to="/" /> : <Login />}
+          />
+          <Route
+            path="/register"
+            element={user ? <Navigate to="/" /> : <Register />}
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
-export default App
