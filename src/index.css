@@ -2,10 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom CSS to hide scrollbars */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 body {
   @apply bg-gray-50 dark:bg-gray-800;
 }
 
+.chat-height {
+  height: calc(100vh - 25vh);
+}
 .active-nav-link {
   @apply px-4 py-2 bg-gray-100 rounded-lg dark:bg-gray-800;
 }

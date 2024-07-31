@@ -9,10 +9,11 @@ export default function AppContextProvider({ children }) {
   const [refreshToken, setRefreshToken] = useState(
     Cookies.get("refresh_token")
   );
-
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   async function getUser() {
+    setIsLoading(true);
     try {
       const response = await api.get("/api/user/me");
 
@@ -25,12 +26,16 @@ export default function AppContextProvider({ children }) {
       setAccessToken(null);
       setRefreshToken(null);
       setUser(null);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   useEffect(() => {
     if (accessToken && refreshToken) {
       getUser();
+    } else {
+      setIsLoading(false);
     }
   }, [accessToken, refreshToken]);
 
@@ -43,6 +48,7 @@ export default function AppContextProvider({ children }) {
         setRefreshToken,
         user,
         setUser,
+        isLoading,
       }}
     >
       {children}

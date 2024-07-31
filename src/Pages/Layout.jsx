@@ -159,7 +159,7 @@ export default function Layout() {
           </div>
         </nav>
       </header>
-      <main className="max-w-4xl p-4 mx-auto">
+      <main className="max-w-6xl p-4 mx-auto">
         <Outlet />
       </main>
     </>

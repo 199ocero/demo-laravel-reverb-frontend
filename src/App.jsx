@@ -1,29 +1,53 @@
-import "./index.css";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./Pages/Layout";
 import Home from "./Pages/Home";
 import Login from "./Pages/Authentication/Login";
 import Register from "./Pages/Authentication/Register";
-import { useContext } from "react";
-import { AppContext } from "./Context/AppContext";
+import Chat from "./Pages/Chat";
+import ProtectedRoutes from "./utils/ProtectedRoutes";
+import GuestRoutes from "./utils/GuestRoutes";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: (
+          <ProtectedRoutes>
+            <Home />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "chat/:userId",
+        element: (
+          <ProtectedRoutes>
+            <Chat />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "login",
+        element: (
+          <GuestRoutes>
+            <Login />
+          </GuestRoutes>
+        ),
+      },
+      {
+        path: "register",
+        element: (
+          <GuestRoutes>
+            <Register />
+          </GuestRoutes>
+        ),
+      },
+    ],
+  },
+]);
 
 export default function App() {
-  const { user } = useContext(AppContext);
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route
-            path="/login"
-            element={user ? <Navigate to="/" /> : <Login />}
-          />
-          <Route
-            path="/register"
-            element={user ? <Navigate to="/" /> : <Register />}
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  );
+  return <RouterProvider router={router} />;
 }
