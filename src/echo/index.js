@@ -38,8 +38,8 @@ const echo = new Echo({
   wsHost: import.meta.env.VITE_REVERB_HOST,
   wsPort: import.meta.env.VITE_REVERB_PORT,
   wssPort: import.meta.env.VITE_REVERB_PORT,
-  forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? "https") === "https",
-  enabledTransports: ["ws", "wss"],
+  forceTLS: "http",
+  enabledTransports: ["ws"],
 });
 
 export default echo;
